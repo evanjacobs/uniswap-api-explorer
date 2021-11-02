@@ -110,11 +110,21 @@ async function fetchPairOutputAmount(client, pair, inputAmount) {
 
 let amount = 0;
 let pairData = {};
-setInterval(async() => {
-  pairData = await fetchPairData(web3client, token0, token1);
-  console.log("pairData: ", pairData);
+pairData = await fetchPairData(web3client, token0, token1);
+console.log("pairData: ", pairData);
+amount = await fetchPairOutputAmount(web3client, pairData, inputAmount);
+console.log("amount: ", amount);
 
-  pairData
-  amount = await fetchPairOutputAmount(web3client, pairData, inputAmount);
-  console.log("amount: ", amount);
-}, 15000);
+// Output HTML
+const element1 = document.createElement('div');
+element1.innerHTML = "Token 1: " + token0.currency.name;
+
+const element2 = document.createElement('div');
+element2.innerHTML = "Token 2: " + token1.currency.name;
+
+const element3 = document.createElement('div');
+element3.innerHTML = "Pair data: <pre><code>" + JSON.stringify(pairData, undefined, 2) + "</code></pre>";
+
+document.body.appendChild(element1);
+document.body.appendChild(element2);
+document.body.appendChild(element3);
