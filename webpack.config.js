@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.js',
@@ -8,5 +9,21 @@ module.exports = {
   },
   resolve: {
     fallback: { "url": require.resolve("url/") },
+  },
+  module: {
+    rules: [{
+      test: /\.m?js/,
+      resolve: {
+        fullySpecified: false
+      }
+    }],
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
+  ],
+  experiments: {
+    topLevelAwait: true
   },
 };
