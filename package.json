@@ -16,7 +16,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@web3api/client-js": "^0.0.1-prealpha.48",
+    "@web3api/client-js": "0.0.1-prealpha.48",
     "url": "^0.11.0"
   }
 }
