@@ -1,5 +1,15 @@
 {
   "short_name": "Uniswap v2 API explorer",
   "name": "Uniswap v2 API explorer",
-  "skylink": "AQCguywCL6eo2KHt-QKP2xwJi9-JbzxcKezFrq17v9LKgA"
+  "skylink": "AQCguywCL6eo2KHt-QKP2xwJi9-JbzxcKezFrq17v9LKgA",
+  "description": "An easy way to learn about and explore Uniswap v2 APIs",
+  "icons": [
+    {
+      "src": "./images/crypto-64.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+  ],
+  "theme_color": "#007aff",
 }
