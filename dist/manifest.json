@@ -11,5 +11,6 @@
       "purpose": "any maskable"
     },
   ],
+  "iconPath": "./images/crypto-64.png",
   "theme_color": "#007aff",
 }
