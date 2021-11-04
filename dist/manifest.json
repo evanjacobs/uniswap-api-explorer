@@ -5,12 +5,18 @@
   "description": "An easy way to learn about and explore Uniswap v2 APIs",
   "icons": [
     {
-      "src": "./images/crypto-64.png",
-      "sizes": "64x64",
+      "src": "./images/crypto-192.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
+    {
+      "src": "./images/crypto-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ],
-  "iconPath": "./images/crypto-64.png",
+  "iconPath": "./images/crypto-256.png",
   "theme_color": "#007aff",
 }
