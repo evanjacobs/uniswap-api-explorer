@@ -1,8 +1,8 @@
 {
-  "short_name": "Uniswap v2 API explorer",
-  "name": "Uniswap v2 API explorer",
+  "short_name": "Uniswap API explorer",
+  "name": "Uniswap API explorer",
   "skylink": "AQCguywCL6eo2KHt-QKP2xwJi9-JbzxcKezFrq17v9LKgA",
-  "description": "An easy way to learn about and explore Uniswap v2 APIs",
+  "description": "An easy way to learn about and explore Uniswap APIs",
   "icons": [
     {
       "src": "./images/192x192_App_Icon.png",
