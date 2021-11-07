@@ -27,7 +27,6 @@
             <h6 class="mb-0">Token</h6>
             <p class="mb-0 opacity-75">The base element in crypto</p>
           </div>
-          <small class="opacity-50 text-nowrap">now</small>
         </div>
       </a>
       <a href="#pair" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
@@ -37,17 +36,6 @@
         <h6 class="mb-0">Pair</h6>
         <p class="mb-0 opacity-75">Two tokens make a pair</p>
       </div>
-      <small class="opacity-50 text-nowrap">3d</small>
-    </div>
-  </a>
-  <a href="#path" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-    <div class="d-flex gap-2 w-100 justify-content-between">
-      <div>
-        <h6 class="mb-0">Path</h6>
-        <p class="mb-0 opacity-75">How to get from one token to another</p>
-      </div>
-      <small class="opacity-50 text-nowrap">1w</small>
     </div>
   </a>
   <a href="#route" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
@@ -55,9 +43,8 @@
     <div class="d-flex gap-2 w-100 justify-content-between">
       <div>
         <h6 class="mb-0">Route</h6>
-        <p class="mb-0 opacity-75">The exact path between two tokens</p>
+        <p class="mb-0 opacity-75">How to get from one token to another</p>
       </div>
-      <small class="opacity-50 text-nowrap">1w</small>
     </div>
   </a>
   <a href="#trade" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
@@ -67,7 +54,6 @@
         <h6 class="mb-0">Trade</h6>
         <p class="mb-0 opacity-75">A proposal for a swap between two tokens</p>
       </div>
-      <small class="opacity-50 text-nowrap">1w</small>
     </div>
   </a>
 </div>
@@ -75,18 +61,18 @@
     </div>
     <div class="col-lg-6">
       <h1 class="display-5 fw-bold lh-1 mb-3">Unicode Primer</h1>
-      <p class="lead">The goal of this primer is to introduce some basic terms, define a few concepts, and introduce some of the functionality of the Uniswap API.</p>
-      <p class="lead">This primer is meant for people who are either new to cryptocurrency or who want to get a better understanding of basic Uniswap concepts.</p>
-      <p class="lead">Start by picking a topic in the list to the right</p>
+      <p class="lead">This a guide to basic terminology and concepts of cryptocurrency as demonstrated by functionality of the Uniswap API.</p>
+      <p class="lead">This primer is meant for people who are either brand new to cryptocurrency or who want to get a basicunderstanding of the Uniswap API.</p>
+      <p class="lead">Each topic in the list builds on the previous concept so it's best to start from the top.</p>
     </div>
   </div>
 </div>
 
 <div class="container col-xxl-8 px-4 py-5">
-  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+  <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
       <select class="form-select" id="token-select"
-	onchange="async function fetchToken(token){ let tokenData = await fetchTokenData(token); document.getElementById('token-api-results').innerText = JSON.stringify(tokenData, undefined, 2); let tokenSupply = await fetchTotalSupply(tokenData.fetchTokenData); document.getElementById('token-api-results').innerText += JSON.stringify(tokenSupply, undefined, 2)}; fetchToken(this.value);">
+	onchange="async function fetchToken(token){ let tokenData = await fetchTokenData(token); document.getElementById('token-api-results').innerText = JSON.stringify(tokenData, undefined, 2) + '\n'; let tokenSupply = await fetchTotalSupply(tokenData.fetchTokenData); document.getElementById('token-api-results').innerText += JSON.stringify(tokenSupply, undefined, 2)}; fetchToken(this.value);">
 	<option selected>Select a token</option>
 	<option value="0">Ether (ETH)</option>
 	<option value="1">Aave (AAVE)</option>
@@ -95,7 +81,7 @@
 	<option value="4">Yearn (YFI)</option>
 	<option value="5">Graph (GRT)</option>
       </select>
-      <pre><code>
+      <pre><code> 
       <div id="token-api-results">
 	Select a token from the dropdown menu
       </div>
@@ -104,21 +90,22 @@
 
     <div class="col-lg-6" id="token">
       <h1 class="display-5 fw-bold lh-1 mb-3">Token</h1>
-      <p class="lead">While a cryptocurrency like Bitcoin has its own dedicated blockchain, DeFi tokens like Chainlink and Aave run on top of, or leverage, an existing blockchain, most commonly Ethereum’s.</p>
-      <p class="lead">Tokens can be used in a large variety of ways including as a way to help guide the future of a protocol or app (governance tokens). You may also be familiar with NFTs (non-fungible tokens) which are typically used as pointers to other digital assets including special images, videos, etc.</p>
-  
-      <p class="lead">You can take a look at some of the most commonly used Ethereum tokens by selecting from the list below. Selecting one of these tokens will send a request to Uniswap to obtain real-time information.</p>
+      <p class="lead">A token is the most basic element of cryptocurrency systems.</p>
+      <p class="lead">Get started by selecting one of the Ethereum tokens in the list. Selecting one of these tokens will send a request to Uniswap to obtain real-time information.</p>
 
-      <p>APIs used in this example:
-      fetchTokenData
-      fetchTotalSupply
+      <p class="lead">
+      APIs used in this section:
+      <ul>
+	<li><strong>fetchTokenData</strong>: basic info about a token including chainId, address, and currency</li>
+	<li><strong>fetchTotalSupply</strong>: maximum total number of tokens available <em>(NB: notice how some tokens have a fixed maximum while others are constantly growing!)</em></li>
+      </ul>
       </p>
     </div>
   </div>
 </div>
 
 <div class="container col-xxl-8 px-4 py-5">
-  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+  <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
       <div id="pair-api-results">
       </div>
@@ -126,90 +113,64 @@
 
     <div class="col-lg-6" id="pair">
       <h1 class="display-5 fw-bold lh-1 mb-3">Pair</h1>
-      <p class="lead">A pair is two a smart contract deployed from the Uniswap V2 Factory that enables trading between two ERC20 tokens. It might be a bit surprising but a pair is itself also a token!</p>
+      <p class="lead">A pair is a smart contract that enables trading between two tokens.</p>
+      <p class="lead">It might be a bit surprising to learn but a pair is itself also a token!</p>
       <p class="lead">Select two tokens to get information about that pair.</p>
-      <p class="lead">You can take a look at some of the most commonly used Ethereum tokens by selecting from the list below. Selecting one of these tokens will send a request to Uniswap to obtain real-time information.</p>
 
-      <p>APIs used:
-      pairAddress
-      pairLiquidityToken
-      pairReserves</p>
+      <p class="lead">
+      APIs used in this section:
+      <ul>
+	<li><strong>pairAddress</strong>: </li>
+	<li><strong>pairLiquidityToken</strong>: </li>
+	<li><strong>pairReserves</strong>: </li>
+      </ul>
+      </p>
     </div>
   </div>
 </div>
 
+<div class="container col-xxl-8 px-4 py-5">
+  <div class="row flex-lg-row-reverse g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+      <div id="pair-api-results">
+      </div>
+    </div>
 
-<div class="chapter" id="path">
-  path: The path is a sequence of (tokenAddress - fee - tokenAddress), which are the variables needed to compute each pool contract address in our sequence of swaps. The multihop swap router code will automatically find the correct pool with these variables, and execute the swap needed within each pool in our sequence.
+    <div class="col-lg-6" id="route">
+      <h1 class="display-5 fw-bold lh-1 mb-3">Route</h1>
+      <p class="lead">A route path is a sequence of token addresses.</p>
 
-
+      <p class="lead">
+      APIs used in this section:
+      <ul>
+	<li><strong>routePath</strong>: </li>
+	<li><strong>createRoute</strong>: </li>
+      </ul>
+      </p>
+    </div>
+  </div>
 </div>
 
+<div class="container col-xxl-8 px-4 py-5">
+  <div class="row flex-lg-row-reverse g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+      <div id="pair-api-results">
+      </div>
+    </div>
 
+    <div class="col-lg-6" id="route">
+      <h1 class="display-5 fw-bold lh-1 mb-3">Trade</h1>
+      <p class="lead">A trade is a proposal for swapping two tokens including info about the result of the trade</p>
 
-
-<div>
-  createRoute
-  <pre><code>
-  createRoute(
-    pairs: [Pair!]!
-    input: Token!
-    output: Token
-  ): Route!
-</code></pre>
+      <p class="lead">
+      APIs used in this section:
+      <ul>
+	<li><strong>createTrade</strong>: </li>
+      </ul>
+      </p>
+    </div>
+  </div>
 </div>
-
-<div>
-  routePath
-<pre><code>
-routePath(
-    pairs: [Pair!]!
-    input: Token!
-  ): [Token!]!
-</code></pre>
-</div>
-
-<div>
-  createTrade
-<pre><code>
-  createTrade(
-    route: Route!
-    amount: TokenAmount!
-    tradeType: TradeType!
-  ): Trade!
-</code></pre>
-</div>
-
-<div>
-  fetchTokenData
-<pre><code>
-  fetchTokenData(
-    chainId: ChainId!
-    address: String!
-    symbol: String
-    name: String
-  ): Token!
-</code></pre>
-</div>
-
-<div>
-  fetchPairData
-<pre><code>
-  fetchPairData(
-    token0: Token!
-    token1: Token!
-  ): Pair!
-</code></pre>
-</div>
-
-<div>
-<pre><code>
-</code></pre>
-</div>
-
-
-
-
 
 
 <!-- Optional JavaScript; choose one of the two! -->
