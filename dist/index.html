@@ -14,7 +14,12 @@
     <title>Unicode Primer</title>
   </head>
   <body>
-    <script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript">
+let gPair = "";
+let gInputToken = "";
+let gOutputToken = "";
+</script>
 
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
@@ -62,7 +67,7 @@
     <div class="col-lg-6">
       <h1 class="display-5 fw-bold lh-1 mb-3">Unicode Primer</h1>
       <p class="lead">This a guide to basic terminology and concepts of cryptocurrency as demonstrated by functionality of the Uniswap API.</p>
-      <p class="lead">This primer is meant for people who are either brand new to cryptocurrency or who want to get a basicunderstanding of the Uniswap API.</p>
+      <p class="lead">This primer is meant for people who are either brand new to cryptocurrency or who want to get a basic understanding of the Uniswap API.</p>
       <p class="lead">Each topic in the list builds on the previous concept so it's best to start from the top.</p>
     </div>
   </div>
@@ -79,6 +84,7 @@
 	<option value="3">Uniswap (UNI)</option>
 	<option value="4">Yearn (YFI)</option>
 	<option value="5">Graph (GRT)</option>
+	<option value="6">chiliZ (CHZ)</option>
       </select>
       <pre><code> 
       <div id="token-api-results">
@@ -117,10 +123,11 @@
 	    <option value="3">Uniswap (UNI)</option>
 	    <option value="4">Yearn (YFI)</option>
 	    <option value="5">Graph (GRT)</option>
+	    <option value="6">chiliZ (CHZ)</option>
 	  </select>
 	</div>
 	<div class="col">
-	  <select class="form-select" id="second-token-select" onchange="async function fetchTokens(token1, token2){ let firstTokenData = await fetchTokenData(token1); firstTokenData.chainId = 'MAINNET'; document.getElementById('pair-api-results').innerText = JSON.stringify(firstTokenData, undefined, 2) + '\n'; let secondTokenData = await fetchTokenData(token2); secondTokenData.chainId = 'MAINNET'; document.getElementById('pair-api-results').innerText += JSON.stringify(secondTokenData, undefined, 2) + '\n'; let pairData = await fetchPairData(firstTokenData.fetchTokenData, secondTokenData.fetchTokenData); document.getElementById('pair-api-results').innerText += JSON.stringify(pairData, undefined, 2)}; fetchTokens(document.getElementById('first-token-select').value, this.value);">
+	  <select class="form-select" id="second-token-select" onchange="async function fetchTokens(token1, token2){ let firstTokenData = await fetchTokenData(token1); document.getElementById('pair-api-results').innerText = JSON.stringify(firstTokenData, undefined, 2) + '\n'; let secondTokenData = await fetchTokenData(token2); document.getElementById('pair-api-results').innerText += JSON.stringify(secondTokenData, undefined, 2) + '\n'; let pairData = await fetchPairData(firstTokenData.fetchTokenData, secondTokenData.fetchTokenData); document.getElementById('pair-api-results').innerText += JSON.stringify(pairData, undefined, 2); gPair = pairData; gInputToken = firstTokenData; gOutputToken = secondTokenData;}; fetchTokens(document.getElementById('first-token-select').value, this.value);">
 	    <option selected>Select second token</option>
 	    <option value="0">Ether (ETH)</option>
 	    <option value="1">Aave (AAVE)</option>
@@ -128,6 +135,7 @@
 	    <option value="3">Uniswap (UNI)</option>
 	    <option value="4">Yearn (YFI)</option>
 	    <option value="5">Graph (GRT)</option>
+	    <option value="6">chiliZ (CHZ)</option>
 	  </select>
 	</div>
       </div>
@@ -159,7 +167,8 @@
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
-      <div id="pair-api-results">
+      <button type="button" class="btn btn-primary" onclick="async function routePath(pair, inputToken){ let routePathData = await routePath(pair, inputToken); document.getElementById('route-api-results').innerText = JSON.stringify(routePathData, undefined, 2)}; routePath([gPair.fetchPairData], gInputToken.fetchTokenData);">Generate a route for the Pair above</button>
+      <div id="route-api-results">
       </div>
     </div>
 

@@ -38,59 +38,16 @@ const tokenList = [
     "address": "0xc944e90c64b2c07662a292be6244bdf05cda44a7",
     "name": "Graph Token",
     "symbol": "GRT",
+  },
+  {
+    "chainId": "MAINNET",
+    "address": "0x3506424f91fd33084466f402d5d97f05f8e3b4af",
+    "name": "chiliZ",
+    "symbol": "CHZ",
   }
+
 ];
 
-const token0 = {
-  chainId: "MAINNET",
-  address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-  currency: {
-    decimals: 18,
-    symbol: "UNI",
-    name: "Uniswap"
-  },
-};
-
-const token1 = {
-  chainId: "MAINNET",
-  address: "",
-  currency: {
-    decimals: 18,
-    symbol: "ETH",
-    name: "Ether"
-  },
-};
-
-const token2 = {
-  chainId: "MAINNET",
-  address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-  currency: {
-    decimals: 18,
-    symbol: "DAI",
-    name: "Dai Stablecoin"
-  }
-};
-
-const token3 = {
-  chainId: "MAINNET",
-  address: "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
-  currency: {
-    decimals: 18,
-    symbol: "AAVE",
-    name: "Aave"
-  }
-};
-
-const inputAmount = {
-  token: token1,
-  amount: "1000000000000000000"
-}
-
-function helloWorld(value) {
-  console.log('hello world', value);
-}
-
-window.helloWorld = helloWorld;
 
 /////////////////////
 // TOKEN functions //
@@ -185,8 +142,8 @@ async function fetchPairData(inputToken, outputToken) {
 }
 window.fetchPairData = fetchPairData;
 
-async function fetchPairOutputAmount(client, pair, inputAmount) {
-  const { data, errors } = await client.query({
+async function fetchPairOutputAmount(pair, inputAmount) {
+  const { data, errors } = await web3client.query({
     uri: ensUri,
     query: `query{
       pairOutputAmount(
@@ -212,3 +169,63 @@ async function fetchPairOutputAmount(client, pair, inputAmount) {
 }
 window.fetchPairOutputAmount = fetchPairOutputAmount;
 
+
+/////////////////////
+// ROUTE functions //
+/////////////////////
+
+async function routePath(pairs, inputToken) {
+  const { data, errors } = await web3client.query({
+    uri: ensUri,
+    query: `query{
+      routePath(
+        pairs: $pairs,
+        inputToken: $inputToken,
+      )
+    }`,
+    variables: {
+      pairs: pairs,
+      inputToken: inputToken
+    }
+  });
+
+  if (errors) {
+    throw errors;
+  }
+
+  if (!data) {
+    throw Error("routePath returned undefined, this should never happen");
+  }
+
+  return data;
+}
+window.routePath = routePath;
+
+async function createRoute(pairs, inputToken, outputToken) {
+  const { data, errors } = await web3client.query({
+    uri: ensUri,
+    query: `query{
+      routePath(
+        pairs: $pairs,
+        inputToken: $inputToken,
+        outputToken: $outputToken,
+      )
+    }`,
+    variables: {
+      pairs: pairs,
+      inputToken: inputToken,
+      outputToken: outputToken
+    }
+  });
+
+  if (errors) {
+    throw errors;
+  }
+
+  if (!data) {
+    throw Error("createRoute returned undefined, this should never happen");
+  }
+
+  return data;
+}
+window.createRoute = createRoute;
