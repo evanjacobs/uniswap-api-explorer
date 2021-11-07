@@ -22,7 +22,7 @@ const tokenList = [
     "symbol": "DAI",
   },
   {
-    "chainId": 1,
+    "chainId": "MAINNET",
     "name": "Uniswap",
     "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
     "symbol": "UNI",
@@ -158,8 +158,8 @@ window.fetchTotalSupply = fetchTotalSupply;
 // PAIR Functions //
 ////////////////////
 
-async function fetchPairData(client, inputToken, outputToken) {
-  const { data, errors } = await client.query({
+async function fetchPairData(inputToken, outputToken) {
+  const { data, errors } = await web3client.query({
     uri: ensUri,
     query: `query {
       fetchPairData(
@@ -181,7 +181,7 @@ async function fetchPairData(client, inputToken, outputToken) {
     throw Error("fetchPairData returned undefined, this should never happen");
   }
 
-  return data.fetchPairData;
+  return data;
 }
 window.fetchPairData = fetchPairData;
 
@@ -212,27 +212,3 @@ async function fetchPairOutputAmount(client, pair, inputAmount) {
 }
 window.fetchPairOutputAmount = fetchPairOutputAmount;
 
-
-// let amount = 0;
-// let pairData = {};
-// pairData = await fetchPairData(web3client, token0, token1);
-// console.log("pairData: ", pairData);
-// amount = await fetchPairOutputAmount(web3client, pairData, inputAmount);
-// console.log("amount: ", amount);
-
-// const element1 = document.createElement('div');
-// element1.innerHTML = "Token 1: " + token0.currency.name;
-
-// const element2 = document.createElement('div');
-// element2.innerHTML = "Token 2: " + token1.currency.name;
-
-// const element3 = document.createElement('div');
-// element3.innerHTML = "Pair data: <pre><code>" + JSON.stringify(pairData, undefined, 2) + "</code></pre>";
-
-// let pair_results = document.getElementById('pair-api-results');
-// pair_results.appendChild(element1);
-// pair_results.appendChild(element2);
-// pair_results.appendChild(element3);
-
-
-// fetchTokenData(this.value).then(tokenData => {fetchTotalSupply(tokenData); return tokenData}).then(tokenSupply => {document.getElementById('token-api-results').innerText = JSON.stringify(tokenSupply, undefined, 2)});

@@ -71,8 +71,7 @@
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
-      <select class="form-select" id="token-select"
-	onchange="async function fetchToken(token){ let tokenData = await fetchTokenData(token); document.getElementById('token-api-results').innerText = JSON.stringify(tokenData, undefined, 2) + '\n'; let tokenSupply = await fetchTotalSupply(tokenData.fetchTokenData); document.getElementById('token-api-results').innerText += JSON.stringify(tokenSupply, undefined, 2)}; fetchToken(this.value);">
+      <select class="form-select" id="token-select" onchange="async function fetchToken(token){ let tokenData = await fetchTokenData(token); document.getElementById('token-api-results').innerText = JSON.stringify(tokenData, undefined, 2) + '\n'; let tokenSupply = await fetchTotalSupply(tokenData.fetchTokenData); document.getElementById('token-api-results').innerText += JSON.stringify(tokenSupply, undefined, 2)}; fetchToken(this.value);">
 	<option selected>Select a token</option>
 	<option value="0">Ether (ETH)</option>
 	<option value="1">Aave (AAVE)</option>
@@ -91,7 +90,8 @@
     <div class="col-lg-6" id="token">
       <h1 class="display-5 fw-bold lh-1 mb-3">Token</h1>
       <p class="lead">A token is the most basic element of cryptocurrency systems.</p>
-      <p class="lead">Get started by selecting one of the Ethereum tokens in the list. Selecting one of these tokens will send a request to Uniswap to obtain real-time information.</p>
+      <p class="lead">Selecting one of these tokens will send a <em>fetchTokenData</em> request to Uniswap to obtain real-time information about that token.</p>
+      <p class="lead">We will also call <em>fetchTotalSupply</em> for the token.
 
       <p class="lead">
       APIs used in this section:
@@ -107,22 +107,49 @@
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
-      <div id="pair-api-results">
+      <div class="row">
+        <div class="col">
+	  <select class="form-select" id="first-token-select" onchange="">
+	    <option selected>Select first token</option>
+	    <option value="0">Ether (ETH)</option>
+	    <option value="1">Aave (AAVE)</option>
+	    <option value="2">Dai Stablecoin (DAI)</option>
+	    <option value="3">Uniswap (UNI)</option>
+	    <option value="4">Yearn (YFI)</option>
+	    <option value="5">Graph (GRT)</option>
+	  </select>
+	</div>
+	<div class="col">
+	  <select class="form-select" id="second-token-select" onchange="async function fetchTokens(token1, token2){ let firstTokenData = await fetchTokenData(token1); firstTokenData.chainId = 'MAINNET'; document.getElementById('pair-api-results').innerText = JSON.stringify(firstTokenData, undefined, 2) + '\n'; let secondTokenData = await fetchTokenData(token2); secondTokenData.chainId = 'MAINNET'; document.getElementById('pair-api-results').innerText += JSON.stringify(secondTokenData, undefined, 2) + '\n'; let pairData = await fetchPairData(firstTokenData.fetchTokenData, secondTokenData.fetchTokenData); document.getElementById('pair-api-results').innerText += JSON.stringify(pairData, undefined, 2)}; fetchTokens(document.getElementById('first-token-select').value, this.value);">
+	    <option selected>Select second token</option>
+	    <option value="0">Ether (ETH)</option>
+	    <option value="1">Aave (AAVE)</option>
+	    <option value="2">Dai Stablecoin (DAI)</option>
+	    <option value="3">Uniswap (UNI)</option>
+	    <option value="4">Yearn (YFI)</option>
+	    <option value="5">Graph (GRT)</option>
+	  </select>
+	</div>
       </div>
+      <pre><code> 
+      <div id="pair-api-results">
+	Select two tokens to form a pair
+      </div>
+      </pre></code>
     </div>
 
     <div class="col-lg-6" id="pair">
       <h1 class="display-5 fw-bold lh-1 mb-3">Pair</h1>
       <p class="lead">A pair is a smart contract that enables trading between two tokens.</p>
       <p class="lead">It might be a bit surprising to learn but a pair is itself also a token!</p>
-      <p class="lead">Select two tokens to get information about that pair.</p>
+      <p class="lead">The order of the tokens in the pair doesn't matter.</p>
+      <p class="lead">We will pass the output from the <em>fetchTokenData</em> API we learned about in the previous section to <em>fetchPairData</em></p>
 
       <p class="lead">
       APIs used in this section:
       <ul>
-	<li><strong>pairAddress</strong>: </li>
-	<li><strong>pairLiquidityToken</strong>: </li>
-	<li><strong>pairReserves</strong>: </li>
+	<li><strong>fetchTokenData</strong>: </li>
+	<li><strong>fetchPairData</strong>: </li>
       </ul>
       </p>
     </div>
@@ -171,7 +198,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Optional JavaScript; choose one of the two! -->
 
