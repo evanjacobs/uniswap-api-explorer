@@ -85,17 +85,21 @@
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
+      <select class="form-select" id="token-select"
+	onchange="async function fetchToken(token){ let tokenData = await fetchTokenData(token); document.getElementById('token-api-results').innerText = JSON.stringify(tokenData, undefined, 2); let tokenSupply = await fetchTotalSupply(tokenData.fetchTokenData); document.getElementById('token-api-results').innerText += JSON.stringify(tokenSupply, undefined, 2)}; fetchToken(this.value);">
+	<option selected>Select a token</option>
+	<option value="0">Ether (ETH)</option>
+	<option value="1">Aave (AAVE)</option>
+	<option value="2">Dai Stablecoin (DAI)</option>
+	<option value="3">Uniswap (UNI)</option>
+	<option value="4">Yearn (YFI)</option>
+	<option value="5">Graph (GRT)</option>
+      </select>
+      <pre><code>
       <div id="token-api-results">
-        <select class="form-select" id="token-select" onchange="fetchTokenData(this.value).then(response => {fetchTotalSupply(response)});">
-	  <option selected>Select a token</option>
-	  <option value="0">Ether (ETH)</option>
-	  <option value="1">Aave (AAVE)</option>
-	  <option value="2">Dai Stablecoin (DAI)</option>
-	  <option value="3">Uniswap (UNI)</option>
-	  <option value="4">Yearn (YFI)</option>
-	  <option value="5">Graph (GRT)</option>
-	</select>
+	Select a token from the dropdown menu
       </div>
+      </pre></code>
     </div>
 
     <div class="col-lg-6" id="token">

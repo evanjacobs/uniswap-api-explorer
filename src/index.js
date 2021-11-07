@@ -96,8 +96,6 @@ window.helloWorld = helloWorld;
 // TOKEN functions //
 /////////////////////
 async function fetchTokenData(token) {
-  console.log('passed in: "', token, '"');
-  console.log('fetched: ', tokenList[token]);
   const { data, errors } = await web3client.query({
     uri: ensUri,
     query: `query {
@@ -125,13 +123,11 @@ async function fetchTokenData(token) {
   }
 
   console.log('fetchTokenData: ', data);
-  return data.fetchTokenData;
+  return data;
 }
 window.fetchTokenData = fetchTokenData;
 
 async function fetchTotalSupply(token) {
-  console.log('passed in: "', token, '"');
-  console.log('fetched: ', tokenList[token]);
   const { data, errors } = await web3client.query({
     uri: ensUri,
     query: `query {
@@ -157,24 +153,10 @@ async function fetchTotalSupply(token) {
 }
 window.fetchTotalSupply = fetchTotalSupply;
 
-//let tokenData = await fetchTokenData(token2);
-//let totalSupplyData = await fetchTotalSupply(web3client, tokenData;
 
-// const token_element = document.createElement('div');
-// token_element.innerHTML = "Token data: <pre><code>" + JSON.stringify(tokenData, undefined, 2) + "</code></pre>";
-
-// const total_supply_element = document.createElement('div');
-// token_element.innerHTML = "Total supply: <pre><code>" + JSON.stringify(totalSupplyData, undefined, 2) + "</code></pre>";
-
-// let token_results = document.getElementById('token-api-results');
-// token_results.appendChild(token_element);
-// token_results.appendChild(total_supply_element);
-
-
-
-/////////////////
-// fetchPairData
-/////////////////
+////////////////////
+// PAIR Functions //
+////////////////////
 
 async function fetchPairData(client, inputToken, outputToken) {
   const { data, errors } = await client.query({
@@ -201,10 +183,8 @@ async function fetchPairData(client, inputToken, outputToken) {
 
   return data.fetchPairData;
 }
+window.fetchPairData = fetchPairData;
 
-///////////////////
-// pairOutputAmount
-///////////////////
 async function fetchPairOutputAmount(client, pair, inputAmount) {
   const { data, errors } = await client.query({
     uri: ensUri,
@@ -230,25 +210,29 @@ async function fetchPairOutputAmount(client, pair, inputAmount) {
 
   return data;
 }
+window.fetchPairOutputAmount = fetchPairOutputAmount;
 
-let amount = 0;
-let pairData = {};
-pairData = await fetchPairData(web3client, token0, token1);
-console.log("pairData: ", pairData);
-amount = await fetchPairOutputAmount(web3client, pairData, inputAmount);
-console.log("amount: ", amount);
 
-// Output HTML
-const element1 = document.createElement('div');
-element1.innerHTML = "Token 1: " + token0.currency.name;
+// let amount = 0;
+// let pairData = {};
+// pairData = await fetchPairData(web3client, token0, token1);
+// console.log("pairData: ", pairData);
+// amount = await fetchPairOutputAmount(web3client, pairData, inputAmount);
+// console.log("amount: ", amount);
 
-const element2 = document.createElement('div');
-element2.innerHTML = "Token 2: " + token1.currency.name;
+// const element1 = document.createElement('div');
+// element1.innerHTML = "Token 1: " + token0.currency.name;
 
-const element3 = document.createElement('div');
-element3.innerHTML = "Pair data: <pre><code>" + JSON.stringify(pairData, undefined, 2) + "</code></pre>";
+// const element2 = document.createElement('div');
+// element2.innerHTML = "Token 2: " + token1.currency.name;
 
-let pair_results = document.getElementById('pair-api-results');
-pair_results.appendChild(element1);
-pair_results.appendChild(element2);
-pair_results.appendChild(element3);
+// const element3 = document.createElement('div');
+// element3.innerHTML = "Pair data: <pre><code>" + JSON.stringify(pairData, undefined, 2) + "</code></pre>";
+
+// let pair_results = document.getElementById('pair-api-results');
+// pair_results.appendChild(element1);
+// pair_results.appendChild(element2);
+// pair_results.appendChild(element3);
+
+
+// fetchTokenData(this.value).then(tokenData => {fetchTotalSupply(tokenData); return tokenData}).then(tokenSupply => {document.getElementById('token-api-results').innerText = JSON.stringify(tokenSupply, undefined, 2)});
