@@ -19,6 +19,7 @@
 let gPair = "";
 let gInputToken = "";
 let gOutputToken = "";
+let gRoute = "";
 </script>
 
 <div class="container col-xxl-8 px-4 py-5">
@@ -26,7 +27,6 @@ let gOutputToken = "";
   <div class="col-10 col-sm-8 col-lg-6">
     <div class="list-group">
       <a href="#token" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-        <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
         <div class="d-flex gap-2 w-100 justify-content-between">
           <div>
             <h6 class="mb-0">Token</h6>
@@ -35,7 +35,6 @@ let gOutputToken = "";
         </div>
       </a>
       <a href="#pair" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
     <div class="d-flex gap-2 w-100 justify-content-between">
       <div>
         <h6 class="mb-0">Pair</h6>
@@ -44,7 +43,6 @@ let gOutputToken = "";
     </div>
   </a>
   <a href="#route" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
     <div class="d-flex gap-2 w-100 justify-content-between">
       <div>
         <h6 class="mb-0">Route</h6>
@@ -53,7 +51,6 @@ let gOutputToken = "";
     </div>
   </a>
   <a href="#trade" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
     <div class="d-flex gap-2 w-100 justify-content-between">
       <div>
         <h6 class="mb-0">Trade</h6>
@@ -167,7 +164,7 @@ let gOutputToken = "";
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
-      <button type="button" class="btn btn-primary" onclick="async function getCreateRoute(pairs, inputToken, outputToken){ let createRouteData = await createRoute(pairs, inputToken, outputToken); document.getElementById('route-api-results').innerText = JSON.stringify(createRouteData, undefined, 2)}; getCreateRoute([gPair.fetchPairData], gInputToken.fetchTokenData, gOutputToken.fetchTokenData);">Create a route for the Pair above</button>
+      <button type="button" class="btn btn-primary" onclick="async function getCreateRoute(pairs, inputToken, outputToken){ let createRouteData = await createRoute(pairs, inputToken, outputToken); document.getElementById('route-api-results').innerText = JSON.stringify(createRouteData, undefined, 2); gRoute = createRouteData;}; getCreateRoute([gPair.fetchPairData], gInputToken.fetchTokenData, gOutputToken.fetchTokenData);">Create a route for the Pair above</button>
       <pre><code>
       <div id="route-api-results">
       </div>
@@ -176,7 +173,7 @@ let gOutputToken = "";
 
     <div class="col-lg-6" id="route">
       <h1 class="display-5 fw-bold lh-1 mb-3">Route</h1>
-      <p class="lead">A route path is a sequence of token addresses.</p>
+      <p class="lead">A route is comprised of a path from one token to another, one or more pairs, an input token, and an output token.</p>
 
       <p class="lead">
       APIs used in this section:
@@ -191,13 +188,17 @@ let gOutputToken = "";
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
-      <div id="pair-api-results">
+      <button type="button" class="btn btn-primary" onclick="async function getCreateTrade(route, amount, tradeType){ let createTradeData = await createTrade(route, amount, tradeType); document.getElementById('trade-api-results').innerText = JSON.stringify(createTradeData, undefined, 2)}; getCreateTrade(gRoute.createRoute, {token: gInputToken.fetchTokenData, amount: '1000'}, 'EXACT_INPUT');">Create a trade based on the Route above</button>
+      <pre><code>
+      <div id="trade-api-results">
       </div>
+      </pre></code>
     </div>
 
     <div class="col-lg-6" id="route">
       <h1 class="display-5 fw-bold lh-1 mb-3">Trade</h1>
       <p class="lead">A trade is a proposal for swapping two tokens including info about the result of the trade</p>
+      <p class="lead">In this example, we will see how much of the <em>outputToken</em> we will receive if we traded 1000 of the <em>inputToken</em>.</p>
 
       <p class="lead">
       APIs used in this section:

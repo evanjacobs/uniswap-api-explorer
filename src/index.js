@@ -235,18 +235,20 @@ window.createRoute = createRoute;
 // TRADE functions //
 /////////////////////
 
-async function routePath(pairs, input) {
+async function createTrade(route, amount, tradeType) {
   const { data, errors } = await web3client.query({
     uri: ensUri,
     query: `query{
-      routePath(
-        pairs: $pairs,
-        input: $input,
+      createTrade(
+        route: $route,
+        amount: $amount,
+        tradeType: $tradeType
       )
     }`,
     variables: {
-      pairs: pairs,
-      input: input
+      route: route,
+      amount: amount,
+      tradeType: tradeType
     }
   });
 
@@ -255,9 +257,9 @@ async function routePath(pairs, input) {
   }
 
   if (!data) {
-    throw Error("routePath returned undefined, this should never happen");
+    throw Error("createTrade returned undefined, this should never happen");
   }
 
   return data;
 }
-window.routePath = routePath;
+window.createTrade = createTrade;
