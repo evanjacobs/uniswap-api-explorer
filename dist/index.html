@@ -167,9 +167,11 @@ let gOutputToken = "";
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
     <div class="col-10 col-sm-8 col-lg-6">
-      <button type="button" class="btn btn-primary" onclick="async function routePath(pair, inputToken){ let routePathData = await routePath(pair, inputToken); document.getElementById('route-api-results').innerText = JSON.stringify(routePathData, undefined, 2)}; routePath([gPair.fetchPairData], gInputToken.fetchTokenData);">Generate a route for the Pair above</button>
+      <button type="button" class="btn btn-primary" onclick="async function getCreateRoute(pairs, inputToken, outputToken){ let createRouteData = await createRoute(pairs, inputToken, outputToken); document.getElementById('route-api-results').innerText = JSON.stringify(createRouteData, undefined, 2)}; getCreateRoute([gPair.fetchPairData], gInputToken.fetchTokenData, gOutputToken.fetchTokenData);">Create a route for the Pair above</button>
+      <pre><code>
       <div id="route-api-results">
       </div>
+      </pre></code>
     </div>
 
     <div class="col-lg-6" id="route">
@@ -179,7 +181,6 @@ let gOutputToken = "";
       <p class="lead">
       APIs used in this section:
       <ul>
-	<li><strong>routePath</strong>: </li>
 	<li><strong>createRoute</strong>: </li>
       </ul>
       </p>

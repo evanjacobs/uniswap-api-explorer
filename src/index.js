@@ -174,18 +174,18 @@ window.fetchPairOutputAmount = fetchPairOutputAmount;
 // ROUTE functions //
 /////////////////////
 
-async function routePath(pairs, inputToken) {
+async function routePath(pairs, input) {
   const { data, errors } = await web3client.query({
     uri: ensUri,
     query: `query{
       routePath(
         pairs: $pairs,
-        inputToken: $inputToken,
+        input: $input,
       )
     }`,
     variables: {
       pairs: pairs,
-      inputToken: inputToken
+      input: input
     }
   });
 
@@ -201,20 +201,20 @@ async function routePath(pairs, inputToken) {
 }
 window.routePath = routePath;
 
-async function createRoute(pairs, inputToken, outputToken) {
+async function createRoute(pairs, input, output) {
   const { data, errors } = await web3client.query({
     uri: ensUri,
     query: `query{
-      routePath(
+      createRoute(
         pairs: $pairs,
-        inputToken: $inputToken,
-        outputToken: $outputToken,
+        input: $input,
+        output: $output,
       )
     }`,
     variables: {
       pairs: pairs,
-      inputToken: inputToken,
-      outputToken: outputToken
+      input: input,
+      output: output
     }
   });
 
@@ -229,3 +229,35 @@ async function createRoute(pairs, inputToken, outputToken) {
   return data;
 }
 window.createRoute = createRoute;
+
+
+/////////////////////
+// TRADE functions //
+/////////////////////
+
+async function routePath(pairs, input) {
+  const { data, errors } = await web3client.query({
+    uri: ensUri,
+    query: `query{
+      routePath(
+        pairs: $pairs,
+        input: $input,
+      )
+    }`,
+    variables: {
+      pairs: pairs,
+      input: input
+    }
+  });
+
+  if (errors) {
+    throw errors;
+  }
+
+  if (!data) {
+    throw Error("routePath returned undefined, this should never happen");
+  }
+
+  return data;
+}
+window.routePath = routePath;
