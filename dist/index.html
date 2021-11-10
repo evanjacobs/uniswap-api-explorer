@@ -20,11 +20,23 @@ let gPair = "";
 let gInputToken = "";
 let gOutputToken = "";
 let gRoute = "";
+
+var highlight = function(jsonString, searchFor) {
+  var regex = new RegExp(searchFor, 'g');
+  var highlighted = '</code></pre><span class="highlighted">' + searchFor + '</span><pre><code>';
+  return jsonString.replace(regex, highlighted);
+};
+
+var highlightLine = function(jsonString, searchFor) {
+  var regex = new RegExp('(.*' + searchFor + '.*)', 'g');
+  var highlighted = '<mark>$1</mark>';
+  return jsonString.replace(regex, highlighted);
+};
 </script>
 
 <div class="container col-xxl-8 px-4 py-5">
-  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-  <div class="col-10 col-sm-8 col-lg-6">
+  <div class="row flex-lg-row-reverse g-5 py-5">
+  <div class="col-10 col-sm-8 col-lg-6" style="margin-top: 100px">
     <div class="list-group">
       <a href="#token" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
         <div class="d-flex gap-2 w-100 justify-content-between">
@@ -46,7 +58,7 @@ let gRoute = "";
     <div class="d-flex gap-2 w-100 justify-content-between">
       <div>
         <h6 class="mb-0">Route</h6>
-        <p class="mb-0 opacity-75">How to get from one token to another</p>
+        <p class="mb-0 opacity-75">A path to get from one token to another</p>
       </div>
     </div>
   </a>
@@ -72,8 +84,9 @@ let gRoute = "";
 
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
-    <div class="col-10 col-sm-8 col-lg-6">
-      <select class="form-select" id="token-select" onchange="async function fetchToken(token){ let tokenData = await fetchTokenData(token); document.getElementById('token-api-results').innerText = JSON.stringify(tokenData, undefined, 2) + '\n'; let tokenSupply = await fetchTotalSupply(tokenData.fetchTokenData); document.getElementById('token-api-results').innerText += JSON.stringify(tokenSupply, undefined, 2)}; fetchToken(this.value);">
+
+    <div class="col-10 col-sm-8 col-lg-6" style="margin-top:100px">
+      <select class="form-select" id="token-select" onchange="async function fetchToken(token){ let tokenData = await fetchTokenData(token); document.getElementById('token-api-results').innerText = JSON.stringify(tokenData, undefined, 2) + '\n'; let tokenSupply = await fetchTotalSupply(tokenData.fetchTokenData); let jsonResults = JSON.stringify(tokenSupply, undefined, 2);  jsonResults = highlightLine(jsonResults, 'amount'); document.getElementById('token-api-results').innerHTML += jsonResults;} fetchToken(this.value);">
 	<option selected>Select a token</option>
 	<option value="0">Ether (ETH)</option>
 	<option value="1">Aave (AAVE)</option>
@@ -83,9 +96,9 @@ let gRoute = "";
 	<option value="5">Graph (GRT)</option>
 	<option value="6">chiliZ (CHZ)</option>
       </select>
-      <pre><code> 
+      <pre><code>
       <div id="token-api-results">
-	Select a token from the dropdown menu
+	Select a token to learn more about it
       </div>
       </pre></code>
     </div>
@@ -93,23 +106,30 @@ let gRoute = "";
     <div class="col-lg-6" id="token">
       <h1 class="display-5 fw-bold lh-1 mb-3">Token</h1>
       <p class="lead">A token is the most basic element of cryptocurrency systems.</p>
-      <p class="lead">Selecting one of these tokens will send a <em>fetchTokenData</em> request to Uniswap to obtain real-time information about that token.</p>
-      <p class="lead">We will also call <em>fetchTotalSupply</em> for the token.
+      <p class="lead">Selecting a token from the list calls the <em>fetchTokenData</em> API to obtain information about that token.</p>
+      <p class="lead">We also call <em>fetchTotalSupply</em> to get the maximum number of that token that can currently be issued.</p>
 
       <p class="lead">
       APIs used in this section:
       <ul>
-	<li><strong>fetchTokenData</strong>: basic info about a token including chainId, address, and currency</li>
-	<li><strong>fetchTotalSupply</strong>: maximum total number of tokens available <em>(NB: notice how some tokens have a fixed maximum while others are constantly growing!)</em></li>
+	<li><strong>fetchTokenData</strong></li>
+	<li><strong>fetchTotalSupply</strong></li>
       </ul>
       </p>
+      <div class="alert alert-warning">
+	<h4 class="alert-heading"><em>Observe</em></h4>
+	<ul>
+	  <li>Some tokens have a nice round number for the amount of total supply while other tokens don't! This is because some tokens are constantly growing their supply while others have a fixed maximum.</li>
+	  <li>The amount returned from fetchTotalSupply is actually multiplied by (10 ** number of decimals in the currency).</li>
+	</ul>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
-    <div class="col-10 col-sm-8 col-lg-6">
+    <div class="col-10 col-sm-8 col-lg-6" style="margin-top:100px">
       <div class="row">
         <div class="col">
 	  <select class="form-select" id="first-token-select" onchange="">
@@ -124,7 +144,7 @@ let gRoute = "";
 	  </select>
 	</div>
 	<div class="col">
-	  <select class="form-select" id="second-token-select" onchange="async function fetchTokens(token1, token2){ let firstTokenData = await fetchTokenData(token1); document.getElementById('pair-api-results').innerText = JSON.stringify(firstTokenData, undefined, 2) + '\n'; let secondTokenData = await fetchTokenData(token2); document.getElementById('pair-api-results').innerText += JSON.stringify(secondTokenData, undefined, 2) + '\n'; let pairData = await fetchPairData(firstTokenData.fetchTokenData, secondTokenData.fetchTokenData); document.getElementById('pair-api-results').innerText += JSON.stringify(pairData, undefined, 2); gPair = pairData; gInputToken = firstTokenData; gOutputToken = secondTokenData;}; fetchTokens(document.getElementById('first-token-select').value, this.value);">
+	  <select class="form-select" id="second-token-select" onchange="async function fetchTokens(token1, token2){ let firstTokenData = await fetchTokenData(token1); document.getElementById('pair-api-results').innerText = JSON.stringify(firstTokenData, undefined, 2) + '\n'; let secondTokenData = await fetchTokenData(token2); document.getElementById('pair-api-results').innerText += JSON.stringify(secondTokenData, undefined, 2) + '\n'; let pairData = await fetchPairData(firstTokenData.fetchTokenData, secondTokenData.fetchTokenData); let jsonResults = JSON.stringify(pairData, undefined, 2); jsonResults = highlightLine(jsonResults, 'amount'); document.getElementById('pair-api-results').innerHTML += jsonResults; gPair = pairData; gInputToken = firstTokenData; gOutputToken = secondTokenData;}; fetchTokens(document.getElementById('first-token-select').value, this.value);">
 	    <option selected>Select second token</option>
 	    <option value="0">Ether (ETH)</option>
 	    <option value="1">Aave (AAVE)</option>
@@ -146,25 +166,31 @@ let gRoute = "";
     <div class="col-lg-6" id="pair">
       <h1 class="display-5 fw-bold lh-1 mb-3">Pair</h1>
       <p class="lead">A pair is a smart contract that enables trading between two tokens.</p>
-      <p class="lead">It might be a bit surprising to learn but a pair is itself also a token!</p>
-      <p class="lead">The order of the tokens in the pair doesn't matter.</p>
-      <p class="lead">We will pass the output from the <em>fetchTokenData</em> API we learned about in the previous section to <em>fetchPairData</em></p>
+      <p class="lead">To get pair data, we pass the output from the <em>fetchTokenData</em> API for each token to <em>fetchPairData</em></p>
+      <p class="lead">It might be a bit surprising to learn but a pair itself is also a token!</p>
 
       <p class="lead">
       APIs used in this section:
       <ul>
-	<li><strong>fetchTokenData</strong>: </li>
-	<li><strong>fetchPairData</strong>: </li>
+	<li><strong>fetchTokenData</strong></li>
+	<li><strong>fetchPairData</strong></li>
       </ul>
       </p>
+      <div class="alert alert-warning">
+	<h4 class="alert-heading"><em>Observe</em></h4>
+	<ul>
+	  <li>The amounts listed in <em>fetchPairData</em> represent the number of tokens in the liquidity pool for the pair.</li>
+	  <li>If a pair isn't returned for two tokens, that means there currently isn't a "liquidity pool" for that pair so it isn't currently possible to directly trade between them.</li>
+	</ul>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
-    <div class="col-10 col-sm-8 col-lg-6">
-      <button type="button" class="btn btn-primary" onclick="async function getCreateRoute(pairs, inputToken, outputToken){ let createRouteData = await createRoute(pairs, inputToken, outputToken); document.getElementById('route-api-results').innerText = JSON.stringify(createRouteData, undefined, 2); gRoute = createRouteData;}; getCreateRoute([gPair.fetchPairData], gInputToken.fetchTokenData, gOutputToken.fetchTokenData);">Create a route for the Pair above</button>
+    <div class="col-10 col-sm-8 col-lg-6" style="margin-top: 100px">
+      <button type="button" class="btn btn-primary" onclick="async function getCreateRoute(pairs, inputToken, outputToken){ let createRouteData = await createRoute(pairs, inputToken, outputToken); var jsonResults = JSON.stringify(createRouteData, undefined, 2); jsonResults = highlightLine(jsonResults, 'input'); jsonResults = highlightLine(jsonResults, 'output'); jsonResults = highlightLine(jsonResults, 'path'); document.getElementById('route-api-results').innerHTML = jsonResults; gRoute = createRouteData;}; getCreateRoute([gPair.fetchPairData], gInputToken.fetchTokenData, gOutputToken.fetchTokenData);">Create a Route for the Pair above</button>
       <pre><code>
       <div id="route-api-results">
       </div>
@@ -178,34 +204,46 @@ let gRoute = "";
       <p class="lead">
       APIs used in this section:
       <ul>
-	<li><strong>createRoute</strong>: </li>
+	<li><strong>createRoute</strong></li>
       </ul>
       </p>
+      <div class="alert alert-warning">
+	<h4 class="alert-heading"><em>Observe</em></h4>
+	<ul>
+	  <li>The unordered pair above has now been transformed to a fully specified path from input token to output token.</li>
+	</ul>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="container col-xxl-8 px-4 py-5">
   <div class="row flex-lg-row-reverse g-5 py-5">
-    <div class="col-10 col-sm-8 col-lg-6">
-      <button type="button" class="btn btn-primary" onclick="async function getCreateTrade(route, amount, tradeType){ let createTradeData = await createTrade(route, amount, tradeType); document.getElementById('trade-api-results').innerText = JSON.stringify(createTradeData, undefined, 2)}; getCreateTrade(gRoute.createRoute, {token: gInputToken.fetchTokenData, amount: '1000'}, 'EXACT_INPUT');">Create a trade based on the Route above</button>
+    <div class="col-10 col-sm-8 col-lg-6" style="margin-top:100px">
+      <button type="button" class="btn btn-primary" onclick="async function getCreateTrade(route, amount, tradeType){ let createTradeData = await createTrade(route, amount, tradeType); let jsonResults = JSON.stringify(createTradeData, undefined, 2); jsonResults = highlightLine(jsonResults, 'outputAmount'); document.getElementById('trade-api-results').innerHTML = jsonResults;}; getCreateTrade(gRoute.createRoute, {token: gInputToken.fetchTokenData, amount: '1000'}, 'EXACT_INPUT');">Create a Trade based on the Route above</button>
       <pre><code>
       <div id="trade-api-results">
       </div>
       </pre></code>
     </div>
 
-    <div class="col-lg-6" id="route">
+    <div class="col-lg-6" id="trade">
       <h1 class="display-5 fw-bold lh-1 mb-3">Trade</h1>
-      <p class="lead">A trade is a proposal for swapping two tokens including info about the result of the trade</p>
+      <p class="lead">A trade is a proposal for swapping two tokens including info about the result of the transaction.</p>
       <p class="lead">In this example, we will see how much of the <em>outputToken</em> we will receive if we traded 1000 of the <em>inputToken</em>.</p>
 
       <p class="lead">
       APIs used in this section:
       <ul>
-	<li><strong>createTrade</strong>: </li>
+	<li><strong>createTrade</strong></li>
       </ul>
       </p>
+      <div class="alert alert-warning">
+	<h4 class="alert-heading"><em>Observe</em></h4>
+	<ul>
+	  <li>The amount listed under outputAmount is the number of tokens we expect to receive from this hypothetical trade.</li>
+	</ul>
+      </div>
     </div>
   </div>
 </div>
